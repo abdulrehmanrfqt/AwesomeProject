@@ -53,7 +53,7 @@ function AppContent() {
         <AmountInput />
         <SliderDots />
         <PositionsTabs />
-        {[1, 2].map(i => (
+        {[1].map(i => (
           <PositionCard key={i} />
         ))}
       </ScrollView>
@@ -210,11 +210,31 @@ function BuySellLeverageRow() {
 }
 
 function MarketAndBalanceRow() {
+  const [orderType, setOrderType] = useState<'market' | 'limit'>('market');
+
   return (
     <View style={[styles.rowBetween, styles.marketRow]}>
       <View style={styles.row}>
-        <Text style={styles.marketActive}>Market</Text>
-        <Text style={styles.marketInactive}>Limit</Text>
+        <TouchableOpacity onPress={() => setOrderType('market')}>
+          <Text
+            style={
+              orderType === 'market'
+                ? styles.marketActive
+                : styles.marketInactive
+            }>
+            Market
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setOrderType('limit')}>
+          <Text
+            style={
+              orderType === 'limit'
+                ? styles.limitActive
+                : styles.limitInactive
+            }>
+            Limit
+          </Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.balanceContainer}>
         <Text style={styles.balanceLabel}>Available</Text>
@@ -249,11 +269,38 @@ function SliderDots() {
 }
 
 function PositionsTabs() {
+  const [activeTab, setActiveTab] = useState<'positions' | 'orders' | 'hideOthers'>(
+    'positions',
+  );
+
   return (
     <View style={styles.tabsRow}>
-      <Text style={styles.tabActive}>Positions (2)</Text>
-      <Text style={styles.tabInactive}>Open Orders</Text>
-      <Text style={styles.tabInactive}>Hide Other Pairs</Text>
+      <TouchableOpacity onPress={() => setActiveTab('positions')}>
+        <Text
+          style={
+            activeTab === 'positions' ? styles.tabActive : styles.tabInactive
+          }>
+          Positions (1)
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => setActiveTab('orders')}>
+        <Text
+          style={
+            activeTab === 'orders' ? styles.tabActive : styles.tabInactive
+          }>
+          Open Orders
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => setActiveTab('hideOthers')}>
+        <Text
+          style={
+            activeTab === 'hideOthers' ? styles.tabActive : styles.tabInactive
+          }>
+          Hide Other Pairs
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -482,12 +529,24 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   marketActive: {
-    color: '#ffffff',
+    color: '#00ff6a',
     fontSize: 14,
     fontWeight: '700',
     marginRight: 16,
   },
   marketInactive: {
+    color: '#6f7e9c',
+    fontSize: 14,
+    fontWeight: '600',
+    marginRight: 16,
+  },
+  limitActive: {
+    color: '#00ff6a',
+    fontSize: 14,
+    fontWeight: '700',
+    marginRight: 16,
+  },
+  limitInactive: {
     color: '#6f7e9c',
     fontSize: 14,
     fontWeight: '600',
@@ -519,6 +578,7 @@ const styles = StyleSheet.create({
   inputPlaceholder: {
     color: '#6f7e9c',
     fontSize: 14,
+    width: '80%',
   },
   inputSuffix: {
     color: '#ffffff',
