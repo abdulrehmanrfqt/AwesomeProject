@@ -181,14 +181,24 @@ function TimeframeSelector() {
 }
 
 function BuySellLeverageRow() {
+  const [selectedMode, setSelectedMode] = useState<'buy' | 'sell'>('buy');
+
   return (
     <View style={styles.rowBetween}>
       <View style={styles.buySellContainer}>
-        <TouchableOpacity style={styles.buyButton}>
-          <Text style={styles.buySellTextActive}>Buy</Text>
+        <TouchableOpacity
+          style={[styles.buyButton, selectedMode === 'buy' && styles.buyButtonActive]}
+          onPress={() => setSelectedMode('buy')}>
+          <Text style={selectedMode === 'buy' ? styles.buySellTextActive : styles.buySellText}>
+            Buy
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sellButton}>
-          <Text style={styles.buySellText}>Sell</Text>
+        <TouchableOpacity
+          style={[styles.sellButton, selectedMode === 'sell' && styles.sellButtonActive]}
+          onPress={() => setSelectedMode('sell')}>
+          <Text style={selectedMode === 'sell' ? styles.buySellTextActive : styles.buySellText}>
+            Sell
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -241,7 +251,7 @@ function SliderDots() {
 function PositionsTabs() {
   return (
     <View style={styles.tabsRow}>
-      <Text style={styles.tabActive}>Positions (1)</Text>
+      <Text style={styles.tabActive}>Positions (2)</Text>
       <Text style={styles.tabInactive}>Open Orders</Text>
       <Text style={styles.tabInactive}>Hide Other Pairs</Text>
     </View>
@@ -436,13 +446,18 @@ const styles = StyleSheet.create({
   buyButton: {
     paddingVertical: 8,
     paddingHorizontal: 24,
-    backgroundColor: '#ffb300',
     borderRadius: 16,
+  },
+  buyButtonActive: {
+    backgroundColor: '#ffb300',
   },
   sellButton: {
     paddingVertical: 8,
     paddingHorizontal: 24,
     borderRadius: 16,
+  },
+  sellButtonActive: {
+    backgroundColor: '#ffb300',
   },
   buySellTextActive: {
     color: '#050816',
